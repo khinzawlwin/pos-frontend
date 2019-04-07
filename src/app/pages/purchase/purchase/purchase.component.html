@@ -1,0 +1,148 @@
+<!-- Main content -->
+<section class="content">
+  <div class="box box-solid box-info">
+    <div class="box-body">
+
+      <div class="row wapper-row">
+        <div class="col-md-7 col-sm-7">
+          <div class="row filter-product">
+            <form action="" method="GET" #sForm="ngForm" (ngSubmit)="onFilter()">
+              <div class="col-md-3 col-sm-3 col-xs-6">
+                <div class="form-group">
+                  <label for="">Name</label>
+                  <input type="text" name="q" [(ngModel)]="query.q" class="form-control" placeholder="Product Name">
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+                <div class="form-group">
+                  <label for="">Code</label>
+                  <input type="text" name="code" [(ngModel)]="query.code" class="form-control" placeholder="Product Code">
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+                <div class="form-group">
+                  <label for="">Category</label>
+                  <!-- <input type="text" name="category_id"  class="form-control"> -->
+                  <select name="category" [(ngModel)]="query.category" class="form-control">
+                    <option value="">All Category</option>
+                    <option *ngFor="let cat of categories" value="{{cat.id}}">{{cat.title}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+                <br/>
+                <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+              </div>
+            </form>
+          </div>
+
+          <div class="row product-list">
+            <div class="col-md-2 col-sm-2 col-xs-3 product" *ngFor="let s of stocks">
+
+              <div class="panel panel-success">
+                <a (click)="addToCart(s)">
+                  <div class="panel-body">
+                    <h4> {{s.name}} </h4>
+                    <span> {{s.purchase_price}} MMK</span>
+                    <h5 class="code"> {{s.code}} </h5>
+                  </div>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-5 col-sm-5 table-responsive cart">
+          <form action="" method="POST" >
+            <table class="table table-striped">
+              <thead>
+                <tr class="bg-gray">
+                  <!-- <td colspan="5"> VID : {{vId | number:0}} </td> -->
+                  <td colspan="5"> VID :  </td>
+                </tr>
+                <tr class="bg-success">
+                  <th>Item</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th class="text-center">Amount</th>
+                  <th style="width:15px;padding:8px 0;text-align:right;"><i class="fa fa-trash-o" aria-hidden="true"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of this.buySvc.getItems()">
+                  <td class="item-name"> 
+                    {{item.name}}
+                  </td>
+                  <td class="qty">
+                    <div class="quantity">
+                      <span class="qty-minus" (click)="updateQtyCart(item, 'm')" ><i class="fa fa-minus text-red" aria-hidden="true"></i></span>
+                        <input type="number" (blur)="updateQty(item, $event.target.value)" class="qty-text" id="qty" step="1" min="1" name="qty" value="{{ item.qty }}">
+                      <span class="qty-plus" (click)="updateQtyCart(item, 'p')"><i class="fa fa-plus text-success" aria-hidden="true"></i></span>
+                    </div>
+                  </td>
+                  <td class="price"> {{item.purchase_price}} </td>
+                  <td class="amount text-right"> {{item.qty * item.purchase_price}} </td>
+                  <td class="action" style="width:15px;padding:8px 0;text-align:right;">
+                    <a (click)="removeItemCart(item)"><i class="fa fa-times" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+
+                <tr *ngIf="!(this.buySvc.getTotalAmount() > 0)">
+                    <td colspan="5"><p class="alert alert-info">Your Item is empty!</p></td>
+                </tr>
+              </tbody>
+
+              <tfoot>
+                <tr>
+                  <td colspan="3" class="text-right">Grand Total</td>
+                  <td class="text-right subtotal"> {{ this.buySvc.getTotalAmount() }} </td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                
+                <select name="customer_id" class="form-control" [(ngModel)]="purchase.supplier_id">
+                  <option value="0">Select Supplier</option>
+                  <option *ngFor="let supp of suppliers" value="{{supp.id}}"> {{supp.supplier_name}} </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- <div class="col-md-4 col-sm-4 col-xs-4"> </div> -->
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <div class="form-group">
+                <button (click)="onPurchaseSubmit()" class="btn btn-success btn-block" > Purchase </button>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <button class="btn btn-primary btn-block" > Print </button>
+                </div>
+            </div>
+          </div>
+        </form>
+
+          <div class="row">
+            <!-- <div class="col-md-6 col-sm-6 col-xs-6"></div> -->
+            <div class="col-md-6 col-sm-6 col-xs-6"></div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <button (click)="reset()" class="btn btn-danger btn-block"> Reset </button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</section>

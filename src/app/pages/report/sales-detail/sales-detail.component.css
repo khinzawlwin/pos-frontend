@@ -1,0 +1,25 @@
+.report-title {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+.report-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: 0;
+    width: 80px;
+    height: 4px;
+    background: #f39c12;
+}
+.content-header {
+    margin-bottom: 30px;
+}
+.content {
+    clear: both;
+}
+.order-item td {
+    padding: 4px 8px;
+}

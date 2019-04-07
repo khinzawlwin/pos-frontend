@@ -1,0 +1,63 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Products</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<p>
+  <a routerLink="/products/create" class="btn btn-success">Add New</a>
+</p>
+
+<div class="box box-solid box-info">
+  <table class="table table-bordered" id="productsTable">
+  
+      <thead>
+          <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Thumbnail</th>
+              <th>Category</th>
+              <th>Kitchen</th>
+              <th>CountUnit</th>
+              <th>Price</th>
+              <th>Buy Price</th>
+              <th>QtyWH</th>
+              <th>QtyCT</th>
+              <th>Code</th>
+              <th>IsActive</th>
+              <th>IsRaw</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+  
+      <tbody>
+          <!-- data coming from server -->
+          <tr *ngFor="let p of products | paginate: {itemsPerPage: 10, currentPage: p}">
+            <td>{{p.id}}</td>
+            <td>{{p.name}}</td>
+            <td> <img src="{{this.prodSvc.getImg(p.thumbnail)}}" alt="" style="width:40px;height:40px;"> </td>
+            <td>{{p.Category.title}}</td>
+            <td>{{p.kitchen_id}}</td>
+            <td>{{p.counting_unit}}</td>
+            <td>{{p.price}}</td>
+            <td>{{p.purchase_price}}</td>
+            <td> {{p.qty_warehouse}} </td>
+            <td> {{p.qty_counter}} </td>
+            <td>{{p.code}}</td>
+            <td>{{p.is_active}}</td>
+            <td>{{p.is_raw}}</td>
+            <td>
+              <a routerLink="/products/edit/{{p.id}}" class="btn btn-warning mr-5 btn-sm">Edit</a>
+              <button (click)="deleteProduct(p.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+          </tr>
+      </tbody>
+  </table>
+  <div class="row mx-3 pagination"> 
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+      
+</section>

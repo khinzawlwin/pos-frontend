@@ -1,0 +1,21 @@
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.thumbnail-img {
+  width: 80px;
+}
+.mr-5 {
+  margin-right: 5px;
+}
+.sidebar-mini .content-wrapper.ml0,
+.sidebar-mini .main-footer.ml0 {
+  margin-left: 0 !important;
+}
+.btn-filter {
+  margin-top:15px;
+}

@@ -1,0 +1,41 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Tables</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<p>
+  <a routerLink="/tables/create" class="btn btn-success">Add New</a>
+</p>
+
+<div class="box box-solid box-info">
+  <table class="table table-bordered" id="tablesTable">
+  
+      <thead>
+          <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+  
+      <tbody>
+          <!-- data coming from server -->
+          <tr *ngFor="let tbl of tables">
+            <td>{{tbl.id}}</td>
+            <td>{{tbl.name}}</td>
+            <td>{{tbl.status}}</td>
+            <td>
+              <a routerLink="/tables/edit/{{tbl.id}}" class="btn btn-warning mr-5 btn-sm">Edit</a>
+              <button (click)="deleteTbl(tbl.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+          </tr>
+      </tbody>
+  
+  </table>
+</div>
+      
+</section>

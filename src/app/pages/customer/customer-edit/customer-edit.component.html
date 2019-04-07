@@ -1,0 +1,31 @@
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1> Edit Customers </h1>
+</section>
+  
+<!-- Main content -->
+<section class="content">
+        <div class="box box-solid box-info">
+            <div class="box-body">
+                    <form action="" method="POST" #editCust="ngForm" (ngSubmit)="onEditCustSubmit(editCust)">
+
+                        <div class="form-group">
+                             <label for="">Name</label>
+                             <input type="text" class="form-control" name="name" [(ngModel)]="customer.name" placeholder="Enter Name"/>
+                        </div>
+                        <div class="form-group">
+                             <label for="">Remark</label>
+                             <textarea name="remark" rows="3" class="form-control" [(ngModel)]="customer.remark" placeholder="Enter Remark"></textarea>
+                        </div>
+                    
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success mr-5">Submit</button>
+                            <a routerLink="/customers" class="btn btn-warning">Cancel</a>
+                        </div>
+                    
+                    </form>
+            </div>
+        </div>   
+        
+</section>

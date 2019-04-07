@@ -1,0 +1,59 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1 class="pull-left">Kitchen Order</h1>
+  <h2 class="pull-right" *ngIf="userRole.role == 5">
+    <ng-container *ngFor="let kit of kitchens">
+      <ng-container *ngIf="kit.id == userRole.kitchen_id"> {{kit.kitchen_name}} </ng-container>
+    </ng-container>
+  </h2>
+  <!-- <a routerLink="/sales/create" class="btn btn-success btn-sm pull-right" *ngIf="userRole.role != 5">POS</a> -->
+  <button type="button" (click)="returnPOS()" class="btn btn-success btn-sm pull-right" *ngIf="userRole.role != 5">POS</button>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<div class="box box-solid box-info">
+  <table class="table table-bordered" id="kitchensTable">
+  
+      <thead>
+          <tr>
+              <th>#</th>
+              <th>Table</th>
+              <th>Order Item</th>
+              <th>Qty</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+  
+      <tbody>
+          <!-- data coming from server -->
+          <tr *ngFor="let order of kitchenOrders">
+            <ng-container *ngIf="order.no">
+            <td> {{order.no}} </td>
+            <td> {{order.Table.name}} </td>
+            <td> 
+              <span style="font-size: 20px;">{{order.order_item}}</span>
+              (
+                {{order.Order.voucher_no | number:0}},
+                <ng-container *ngIf="order.cust_demand != null"> {{order.CustomerDemand.demand}} </ng-container>
+                <ng-container *ngIf="order.remark != null"> {{', '+order.remark}} </ng-container>
+              )
+            </td>
+            <td> {{order.qty}} </td>
+            <td>
+              <button (click)="kitchenReady(order.id)" class="btn btn-warning" *ngIf="userRole.role == 5">Ready</button>
+              <button (click)="waiterConfirm(order.id)" class="btn btn-warning" *ngIf="userRole.role == 4">Confirm</button>
+              <ng-container *ngIf="userRole.role != 4 && userRole.role != 5">
+                <span *ngIf="order.kitchen_status == 0">Cook</span>
+                <span *ngIf="order.kitchen_status == 1">Ready</span>
+              </ng-container>
+            </td>
+            </ng-container>
+            
+          </tr>
+      </tbody>
+  </table>
+</div>
+      
+</section>

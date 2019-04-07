@@ -1,0 +1,43 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Customers</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<p>
+  <a routerLink="/customers/create" class="btn btn-success">Add New</a>
+</p>
+
+<div class="box box-solid box-info">
+  <table class="table table-bordered" id="customersTable">
+  
+      <thead>
+          <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Total Purchase Amount</th>
+              <th>Remark</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+  
+      <tbody>
+          <!-- data coming from server -->
+          <tr *ngFor="let cust of customers">
+            <td>{{cust.id}}</td>
+            <td>{{cust.name}}</td>
+            <td>{{cust.total_purchase_amount}}</td>
+            <td>{{cust.remark}}</td>
+            <td>
+              <a routerLink="/customers/edit/{{cust.id}}" class="btn btn-warning mr-5 btn-sm">Edit</a>
+              <button (click)="deleteCustomer(cust.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+          </tr>
+      </tbody>
+  
+  </table>
+</div>
+      
+</section>

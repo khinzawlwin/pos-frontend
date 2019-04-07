@@ -1,0 +1,140 @@
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1> Create New Products </h1>
+</section>
+  
+<!-- Main content -->
+<section class="content">
+        <div class="box box-solid box-info">
+            <div class="box-body">
+                    <form action="" method="POST" #createProd="ngForm" (ngSubmit)="onCreateProdSubmit(createProd)" >
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <input type="text" class="form-control" name="name" [(ngModel)]="product.name" placeholder="Enter Title"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Category</label>
+                                    <select name="category_id" [(ngModel)]="product.category_id" class="form-control" >
+                                        <option value="0">Choose Category</option>
+                                        <option *ngFor="let cat of categories" value="{{cat.id}}">{{cat.title}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Kitchen</label>
+                                    <select name="kitchen_id" [(ngModel)]="product.kitchen_id" class="form-control" >
+                                        <option value="0">Choose Kitchen</option>
+                                        <option *ngFor="let kit of kitchens" value="{{kit.id}}">{{kit.kitchen_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Counting Unit</label>
+                                    <input type="text" class="form-control" name="counting_unit" [(ngModel)]="product.counting_unit" placeholder="Enter Count Unit"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Price</label>
+                                    <input type="number" class="form-control" name="price" [(ngModel)]="product.price" placeholder="Enter Price"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Purchase Price</label>
+                                    <input type="number" class="form-control" name="purchase_price" [(ngModel)]="product.purchase_price" placeholder="Enter Purchase Price"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Qty Opening Balance</label>
+                                    <input type="number" class="form-control" name="qty_opening_balance" [(ngModel)]="product.qty_opening_balance" placeholder="Enter Opening Balance"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Qty in Warehouse</label>
+                                    <input type="number" class="form-control" name="qty_warehouse" [(ngModel)]="product.qty_warehouse" placeholder="Enter Qty Warehouse"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Qty in Counter</label>
+                                    <input type="number" class="form-control" name="qty_counter" [(ngModel)]="product.qty_counter" placeholder="Enter Qty Counter"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Code</label>
+                                    <input type="text" class="form-control" name="code" [(ngModel)]="product.code" placeholder="Enter Price"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Discount</label>
+                                    <input type="number" class="form-control" name="discount_amount" [(ngModel)]="product.discount_amount" placeholder="Enter Discount"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <label for="">Stock Option</label>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="is_active">
+                                    <input type="checkbox" class="form-check-input" name="is_active" id="is_active" [(ngModel)]="product.is_active"> Is Active
+                                    </label>
+                                    &nbsp;&nbsp;
+                                    <label class="form-check-label" for="is_active">
+                                    <input type="checkbox" class="form-check-input" name="is_raw" id="is_raw" [(ngModel)]="product.is_raw"> Is Raw
+                                    </label>
+                                </div>
+                                <!-- <div class="form-check">
+                                    <label class="form-check-label" for="is_active">
+                                    <input type="checkbox" class="form-check-input" name="is_raw" id="is_raw" [(ngModel)]="product.is_raw">Is Raw
+                                    </label>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Description</label>
+                                    <textarea name="description" rows="3" class="form-control" [(ngModel)]="product.description" placeholder="Enter Description"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="">Thumbnail</label>
+                                    <!-- <input type="file" name="thumbnail" [(ngModel)]="product.thumbnail" /> -->
+                                    <input type="file" name="thumbnail" (change)="selectFile($event)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success mr-5">Submit</button>
+                                    <a routerLink="/products" class="btn btn-warning">Cancel</a>
+                                </div>
+                            </div>  
+                        </div>
+                    </form>
+            </div>
+        </div>   
+        
+</section>

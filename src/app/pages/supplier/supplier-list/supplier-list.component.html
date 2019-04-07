@@ -1,0 +1,45 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Suppliers</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<p>
+  <a routerLink="/suppliers/create" class="btn btn-success">Add New</a>
+</p>
+
+<div class="box box-solid box-info">
+  <table class="table table-bordered" id="tablesSupplier">
+  
+      <thead>
+          <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Company Name</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+  
+      <tbody>
+          <!-- data coming from server -->
+          <tr *ngFor="let supp of suppliers">
+            <td>{{supp.id}}</td>
+            <td>{{supp.supplier_name}}</td>
+            <td>{{supp.company_name}}</td>
+            <td>{{supp.phone}}</td>
+            <td>{{supp.address}}</td>
+            <td>
+              <a routerLink="/suppliers/edit/{{supp.id}}" class="btn btn-warning mr-5 btn-sm">Edit</a>
+              <button (click)="deleteSupp(supp.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+          </tr>
+      </tbody>
+  
+  </table>
+</div>
+      
+</section>

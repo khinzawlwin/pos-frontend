@@ -1,0 +1,48 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Purchase</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<p>
+  <a routerLink="/purchases/create" class="btn btn-success">Add New</a>
+</p>
+
+<div class="box box-solid box-info">
+  <table class="table table-bordered" id="productsTable">
+  
+      <thead>
+          <tr>
+              <th>Id</th>
+              <th>PurchaseNo</th>
+              <th>Supplier</th>
+              <th>GrandTotal</th>
+              <th>PurchaseBy</th>
+              <th>CreatedAt</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+  
+      <tbody>
+          <!-- data coming from server -->
+          <tr *ngFor="let p of purchases | paginate: {itemsPerPage: 10, currentPage: p}">
+            <td>{{p.id}}</td>
+            <td>{{p.purchase_no}}</td>
+            <td>{{p.Supplier.supplier_name}}</td>
+            <td>{{p.grand_total}}</td>
+            <td>{{p.User.name}}</td>
+            <td>{{p.created_at | date: 'dd/MM/yyyy H:mm:ss'}}</td>
+            <td>
+              <a routerLink="/purchases/detail/{{p.id}}" class="btn btn-info">View</a>
+            </td>
+          </tr>
+      </tbody>
+  </table>
+  <div class="row mx-3 pagination"> 
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+      
+</section>

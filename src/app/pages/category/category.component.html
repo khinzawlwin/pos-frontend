@@ -1,0 +1,43 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>Categories</h1>
+</section>
+  
+<!-- Main content -->
+<section class="content">
+
+<p>
+    <a routerLink="/categories/create" class="btn btn-success">Add New</a>
+</p>
+
+<div class="box box-solid box-info">
+    <table class="table table-bordered" id="categoriesTable">
+    
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Icon</th>
+                <th>Remark</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            <!-- data coming from server -->
+            <tr *ngFor="let cat of categories">
+              <td>{{cat.id}}</td>
+              <td>{{cat.title}}</td>
+              <td>{{cat.icon}}</td>
+              <td>{{cat.remark}}</td>
+              <td>
+                <a routerLink="/categories/edit/{{cat.id}}" class="btn btn-warning mr-5 btn-sm">Edit</a>
+                <button (click)="deleteCategory(cat.id)" class="btn btn-danger btn-sm">Delete</button>
+              </td>
+            </tr>
+        </tbody>
+    
+    </table>
+</div>
+        
+</section>

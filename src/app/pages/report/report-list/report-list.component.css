@@ -1,0 +1,25 @@
+.box-info {
+    padding: 0 10px 30px;
+}
+.report-title {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+.report-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 80px;
+    height: 4px;
+    background: #f39c12;
+}
+.btn-report {
+    background: chocolate;
+    margin-bottom: 15px;
+    color: #fff;
+}
+.btn-report:hover {
+    background: firebrick;
+}

@@ -1,0 +1,14 @@
+.view-table {
+    margin-bottom: 15px;
+}
+.table-name {
+    margin: 0;
+}
+.btn-order {
+    width: 100%;
+    background: lightseagreen;
+    color: #fff;
+}
+.btn-order p {
+    margin-bottom: 0;
+}

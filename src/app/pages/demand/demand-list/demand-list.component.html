@@ -1,0 +1,41 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Customer Demands</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<p>
+  <a routerLink="/customer-demands/create" class="btn btn-success">Add New</a>
+</p>
+
+<div class="box box-solid box-info">
+  <table class="table table-bordered" id="demandsTable">
+  
+      <thead>
+          <tr>
+              <th>Id</th>
+              <th>Demand</th>
+              <th>Remark</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+  
+      <tbody>
+          <!-- data coming from server -->
+          <tr *ngFor="let dem of demands">
+            <td>{{dem.id}}</td>
+            <td>{{dem.demand}}</td>
+            <td>{{dem.remark}}</td>
+            <td>
+              <a routerLink="/customer-demands/edit/{{dem.id}}" class="btn btn-warning mr-5 btn-sm">Edit</a>
+              <button (click)="deleteDemand(dem.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+          </tr>
+      </tbody>
+  
+  </table>
+</div>
+      
+</section>

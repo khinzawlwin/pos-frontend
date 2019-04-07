@@ -1,0 +1,435 @@
+<div class="kitchen">
+  <a routerLink="/kitchen-display" class="btn btn-kitchen btn-sm" >Kitchen ({{readyCount}})</a>
+</div>
+
+<!-- Main content -->
+<section class="content">
+    <div class="box box-solid box-info">
+      <div class="box-body">
+  
+        <div class="row wapper-row">
+          <div class="col-md-7 col-sm-7">
+            <div class="row filter-product">
+              <form action="" method="GET" #sForm="ngForm" (ngSubmit)="onFilter()">
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                  <div class="form-group">
+                    <label for="">Name</label>
+                    <input type="text" name="q" [(ngModel)]="query.q" class="form-control" placeholder="Product Name">
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                  <div class="form-group">
+                    <label for="">Code</label>
+                    <input type="text" name="code" [(ngModel)]="query.code" class="form-control" placeholder="Product Code">
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                  <div class="form-group">
+                    <label for="">Category</label>
+                    <!-- <input type="text" name="category_id"  class="form-control"> -->
+                    <select name="category" [(ngModel)]="query.category" class="form-control">
+                      <option value="">Select Category</option>
+                      <option *ngFor="let cat of categories" value="{{cat.id}}">{{cat.title}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                  <br/>
+                  <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+                </div>
+              </form>
+            </div>
+            
+            <div class="row product-list">
+              <div class="col-md-2 col-sm-2 col-xs-3 product" *ngFor="let p of products">
+  
+                <div class="panel panel-success">
+                  <a (click)="addToCart(p)">
+                    <div class="panel-body">
+                      <img src="{{this.prodSvc.getImg(p.thumbnail)}}" alt="" class="img-rounded" style="width:50px;height:50px;">
+                    </div>
+                    <div class="panel-footer">
+                      <h4> {{p.name}} </h4>
+                      <span> {{p.price}} MMK</span><br/>
+                      <h5 class="code"> {{p.code}} </h5>
+                    </div>
+                  </a>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-5 col-sm-5 table-responsive cart">
+            <form action="" method="POST">
+              <input type="hidden" name="id" [(ngModel)]="order.id">
+              <input type="hidden" name="voucher_no" [(ngModel)]="order.voucher_no">
+              <table class="table table-striped">
+                <thead>
+                  <tr class="bg-yellow" *ngIf="order.status == 0">
+                    <td colspan="3"> VID : {{order.voucher_no | number:0}} </td>
+                    <td colspan="2" class="text-right">
+                      <label for="">
+                        <input type="checkbox" name="by_one" [(ngModel)]="byOne" (change)="getByOne($event)"> By One
+                      </label>
+                    </td>
+                  </tr>
+                  <tr class="bg-primary" *ngIf="order.status == 1">
+                    <td colspan="5"> VID : {{order.voucher_no | number:0}} </td>
+                  </tr>
+                  <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th class="text-center">Amount</th>
+                    <th style="width:15px;padding:8px 0;text-align:right;"><i class="fa fa-trash-o" aria-hidden="true"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of this.cartSvc.getItems()">
+                    <td class="item-name"> 
+                      <a (click)="getId(item.id, item.demand, item.remark)" data-toggle="modal" data-target="#openDemand"><i class="fa fa-comment cust-demand"></i></a>
+                      {{item.name}}
+                    </td>
+                    <td class="qty">
+                      <div class="quantity">
+                        <span class="qty-minus" (click)="updateQtyCart(item, 'm')" ><i class="fa fa-minus" aria-hidden="true"></i></span>
+                          <input type="number" class="qty-text" id="qty" step="1" min="1" max="99" name="qty" value="{{ item.qty }}">
+                        <span class="qty-plus" (click)="updateQtyCart(item, 'p')"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                      </div>
+                    </td>
+                    <td class="price"> {{item.price}} </td>
+                    <td class="amount text-right"> {{item.qty * item.price}} </td>
+                    <td class="action" style="width:15px;padding:6px 0;text-align:right;">
+                      
+                      <ng-container *ngIf="chkByOne == true">
+                        <input type="checkbox" name="{{item.orderItemId}}" (change)="chkItem($event, item)">
+                      </ng-container>
+                      
+                      <a (click)="removeItemCart(item)" *ngIf="item.kitchen_status == 0"><i class="fa fa-times" aria-hidden="true"></i></a> 
+                      <input type="hidden" name="demand" id="demand" value="{{item.demand}}">
+                      <input type="hidden" name="remark" id="remark" value="{{item.remark}}">
+                    </td>
+                  </tr>
+  
+                  <tr *ngIf="!(this.cartSvc.getTotalAmount() > 0)">
+                      <td colspan="5"><p class="alert alert-info">Your cart is empty!</p></td>
+                  </tr>
+                </tbody>
+  
+                <tfoot>
+                  <tr>
+                    <td colspan="3" class="text-right">SubTotal</td>
+                    <td class="text-right subtotal"> {{ this.cartSvc.getTotalAmount() }} </td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="text-right">Discount(%)</td>
+                    <td>
+                      <input type="number" name="discount_amount" [(ngModel)]="order.discount_amount" class="form-control" (blur)="discountCal()" />
+                    </td>
+                    <td></td>
+                  </tr>
+                                  <tr>
+                  <td colspan="3" class="text-right">
+                    <div class="checkbox tax">
+                      <input type="checkbox" name="tax_on_off" [(ngModel)]="isCheckTax" (change)="taxOnOff($event)">
+                      <label for="">Tax(5%)</label>
+                    </div>
+                  </td>
+                  <td>
+                    <!-- <input type="number" name="tax" *ngIf="taxCheck == false" value="0" class="form-control" disabled="disabled"/> -->
+                    <input type="number" name="tax" [(ngModel)]="order.tax" class="form-control" readonly/>
+                  </td>
+                  <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="text-right">Total</td>
+                    <td>
+                      <input type="number" name="total_amount" [(ngModel)]="order.total_amount" class="form-control" />
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="text-right">PaidAmount</td>
+                    <td>
+                      <input type="number" name="paid_amount" [(ngModel)]="order.paid_amount" class="form-control" (blur)="paidamountCal()" />
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="text-right">ChangeAmount</td>
+                    <td>
+                      <input type="number" name="change_amount" [(ngModel)]="order.change_amount" class="form-control" (blur)="changeamountCal()" />
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="text-right">BalanceAmount</td>
+                    <td>
+                      <input type="number" name="balance_amount" [(ngModel)]="order.balance_amount" class="form-control" />
+                    </td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+  
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <label for="">Customer</label>
+                  <input type="hidden" name="customer_id" class="form-control" [(ngModel)]="order.customer_id">
+                  <input type="text" name="customer_name" class="form-control" value="{{custName}}" readonly>
+                  <!-- <select name="customer_id" class="form-control" [(ngModel)]="order.customer_id">
+                    <option value="0">Select Customer</option>
+                    <option value="1">Default Customer</option>
+                  </select> -->
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <label for="">Table</label>
+                  <input type="hidden" name="table_id" class="form-control" [(ngModel)]="order.table_id">
+                  <input type="text" name="table_name" class="form-control" value="{{tblName}}" readonly>
+                  <!-- <select name="table_id" class="form-control" [(ngModel)]="order.table_id">
+                    <option *ngFor="let tbl of tables" value="{{tbl.id}}"> {{tbl.name}} </option>
+                  </select> -->
+                </div>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <button (click)="onOrderSubmit(0)" class="btn btn-order btn-block"> Order </button>
+                </div>
+              </div>
+              <!-- <div class="col-md-4 col-sm-4 col-xs-4">
+                  <div class="form-group">
+                    <button (click)="onOrderSubmit(1)" class="btn btn-primary btn-block"> Pending </button>
+                  </div>
+              </div> -->
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                  <div class="form-group">
+                    <button (click)="onOrderSubmit(2)" class="btn btn-success btn-block" *ngIf="userRole.role == 4" disabled="disabled"> Confirm </button>
+                    <ng-container *ngIf="orderService == 0">
+                      <button (click)="onOrderSubmit(2)" class="btn btn-success btn-block" *ngIf="userRole.role != 4" > Confirm </button>
+                    </ng-container>
+                    <ng-container *ngIf="orderService > 0">
+                      <button (click)="onOrderSubmit(2)" class="btn btn-success btn-block" *ngIf="userRole.role != 4" disabled="disabled"> Confirm </button>
+                    </ng-container>
+                  </div>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-group">
+                  <button class="btn btn-order btn-block" id="btn_order" data-toggle="modal" data-target="#openOrder"> Open Order ({{ordersCount}}) </button>
+                </div>
+              </div>
+              <!-- <div class="col-md-4 col-sm-4 col-xs-4">
+                  <div class="form-group">
+                    <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#openPending" *ngIf="userRole.role == 4 || userRole.role == 5" disabled="disabled"> Open Pending ({{pendingCount}}) </button>
+                    <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#openPending" *ngIf="userRole.role < 4" > Open Pending ({{pendingCount}}) </button>
+                  </div>
+              </div> -->
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                  <div class="form-group">
+                    <button class="btn btn-success btn-block" *ngIf="userRole.role == 4" disabled="disabled"> Print </button>
+                    <button (click)="printVoucher('printVoucher')" class="btn btn-success btn-block" *ngIf="userRole.role != 4" > Print </button>
+                  </div>
+              </div>
+            </div>
+  
+          </form>
+  
+            <div class="row">
+              <!-- <div class="col-md-4 col-sm-4 col-xs-4"></div> -->
+              <div class="col-md-6 col-sm-6 col-xs-6"></div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                  <div class="form-group">
+                    <button (click)="reset()" class="btn btn-reset btn-block"> Reset </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" id="openOrder" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Order List</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-2 col-sm-3 col-xs-4 text-center view-table" *ngFor="let ord of orders">
+                <a (click)="openOrder(ord.id)" class="btn btn-lg btn-ordertable">
+                <!-- <a routerLink="/sales/order/{{ord.id}}" (click)="openOrder(ord.id)" class="btn btn-warning btn-lg btn-order"> -->
+                  <h3 class="table-name"> {{ord.Table.name}} </h3>
+                  <span> {{ord.voucher_no | number:0}} </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- pending -->
+  <div class="modal fade" id="openPending" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Pending List</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-4 text-center view-table" *ngFor="let pend of pending">
+              <a (click)="openPending(pend.id)" class="btn btn-lg btn-ordertable">
+                <h3 class="table-name"> {{pend.Table.name}} </h3>
+                <span> {{pend.voucher_no | number:0}} </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- customer demand -->
+  <div class="modal fade" id="openDemand" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Customer Demand</h4>
+        </div>
+        <div class="modal-body">
+            <div class="box-body">
+                <input type="hidden" name="itemId" [(ngModel)]="setdemand.itemid">
+                <div class="form-group">
+                    <label for="">Select Demand</label>
+                    <select name="demand" [(ngModel)]="setdemand.demand" id="demand" class="form-control">
+                      <option value="">Select Demand</option>
+                      <option *ngFor="let dm of demands" value="{{dm.id}}">{{dm.demand}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Remark</label>
+                    <input type="text" name="remark" [(ngModel)]="setdemand.remark" id="remark" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button (click)="getCustDemand(setdemand)" data-dismiss="modal" class="btn btn-success">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- print voucher -->
+  <div class="modal fade" id="openPrint" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Voucher</h4>
+        </div>
+        <div class="modal-body" id="printVoucher">
+          <ng-container *ngIf="taxCheck == true">
+
+            <!-- <h2 class="print-title" style="text-align:center;margin:0;"> {{this.app.title}} </h2> -->
+            <div class="print-title" style="text-align:center;margin-bottom:15px;"> 
+              <img src="../../../assets/img/july14_logo.png" alt="july14" width="100px;"> 
+            </div>
+
+          </ng-container>
+          
+          <table class="table" style="width: 100%;">
+            <tbody>
+              <tr>
+                <td>OrderNo</td>
+                <td>: {{order.voucher_no | number:0}}</td>
+                <td>Date</td>
+                <td>: {{jstoday}} </td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td>Table</td>
+                <td>: {{tblName}}</td>
+                <td>Sale By</td>
+                <td>: {{userRole.name}}</td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table" style="width:100%;">
+            <thead>
+              <tr>
+                <th style="border-top: 1px solid #a1a1a1;border-bottom: 1px solid #a1a1a1;">Product</th>
+                <th style="border-top: 1px solid #a1a1a1;border-bottom: 1px solid #a1a1a1;">Qty</th>
+                <th style="border-top: 1px solid #a1a1a1;border-bottom: 1px solid #a1a1a1;">Amount</th>
+                <th style="border-top: 1px solid #a1a1a1;border-bottom: 1px solid #a1a1a1;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of this.cartSvc.getItems()">
+                <td>{{item.name}}</td>
+                <td style="text-align: right;">{{ item.qty }} x {{item.price}}</td>
+                <td style="text-align: right;">{{ item.qty * item.price }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2" style="text-align:right;border-top: 1px solid #a1a1a1;">Subtotal</td>
+                <td style="text-align:right;border-top: 1px solid #a1a1a1;"> {{ this.cartSvc.getTotalAmount() }} </td>
+                <td style="text-align:right;border-top: 1px solid #a1a1a1;">&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:right;">Discount</td>
+                <td style="text-align:right;"> {{ order.discount_amount }} </td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:right;">Tax</td>
+                <td style="text-align:right;"> {{ order.tax }} </td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:right;">Total</td>
+                <td style="text-align:right;"> {{ order.total_amount }} </td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:right;">PaidAmount</td>
+                <td style="text-align:right;"> {{ order.paid_amount }} </td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:right;">ChangeAmount</td>
+                <td style="text-align:right;"> {{ order.change_amount }} </td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:right;">BalanceAmount</td>
+                <td style="text-align:right;"> {{ order.balance_amount }} </td>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </section>

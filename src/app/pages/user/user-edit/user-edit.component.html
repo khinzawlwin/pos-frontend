@@ -1,0 +1,56 @@
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1> Edit users </h1>
+</section>
+  
+<!-- Main content -->
+<section class="content">
+  <div class="box box-solid box-info">
+    <div class="box-body">
+      <form action="" method="POST" #editUser="ngForm" (ngSubmit)="onEditUserSubmit(editUser)">
+
+        <div class="form-group">
+          <label for="">Name</label>
+          <input type="text" class="form-control" name="name" [(ngModel)]="user.name" placeholder="Enter Name"/>
+        </div>
+        <div class="form-group">
+          <label for="">Email</label>
+          <input type="email" class="form-control" name="email" [(ngModel)]="user.email" placeholder="Enter Email"/>
+        </div>
+        <div class="form-group">
+          <label for="">Phone</label>
+          <input type="text" class="form-control" name="phone" [(ngModel)]="user.phone" placeholder="Enter Phone"/>
+        </div>
+        <div class="form-group">
+          <label for="">Password</label>
+          <input type="password" name="password" [(ngModel)]="user.password" class="form-control" placeholder="Enter Password">
+        </div>
+        <div class="form-group">
+          <label for="">Role</label>
+          <select name="role" [(ngModel)]="user.role" class="form-control" placeholder="Select Role">
+            <option *ngFor="let r of roles" value="{{r.id}}">{{r.role}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Kitchen</label>
+          <!-- <input type="text" class="form-control" name="role" [(ngModel)]="user.role" placeholder="Enter Role"/> -->
+          <select name="kitchen_id" [(ngModel)]="user.kitchen_id" class="form-control" placeholder="Select Kitchen">
+            <option *ngFor="let kit of kitchens" value="{{kit.id}}">{{kit.kitchen_name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Address</label>
+          <input type="text" class="form-control" name="address" [(ngModel)]="user.address" placeholder="Enter Address"/>
+        </div>
+                    
+        <div class="form-group">
+          <button type="submit" class="btn btn-success mr-5">Submit</button>
+          <a routerLink="/users" class="btn btn-warning">Cancel</a>
+        </div>
+                    
+      </form>
+    </div>
+  </div>   
+        
+</section>

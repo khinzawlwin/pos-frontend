@@ -1,0 +1,121 @@
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="#" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>July</b>14</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>July</b>14</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+
+
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="/assets/adminlte/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs" *ngIf="!this.auth.isLoggedIn()">Guest</span>
+              <span class="hidden-xs" *ngIf="this.auth.isLoggedIn()">{{ userRole.name }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- Menu Footer-->
+              <li class="user-footer" *ngIf="this.auth.isLoggedIn()">
+                <!-- <div class="pull-left">
+                  <a href="/users/profile" class="btn btn-default btn-flat">Profile</a>
+                </div> -->
+                <div class="pull-right" >
+                  <a (click)="onLogout()" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- =============================================== -->
+
+  <!-- Left side column. contains the sidebar -->
+  <aside class="main-sidebar" *ngIf="userRole.role == '1' || userRole.role == '2' || userRole.role == '3'">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="/assets/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p *ngIf="!this.auth.isLoggedIn()">Alexander Pierce</p>
+          <p *ngIf="this.auth.isLoggedIn()">{{ userRole.name }}</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+
+
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+
+        <li class="header">MAIN NAVIGATION</li>
+
+        <li><a routerLink="/" (click)="setTitle('Dashboard')"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a> </li>
+
+        <li><a routerLink="/sales/create" (click)="setTitle('POS')"><i class="fa fa-shopping-cart text-green"></i> <span>POS</span></a></li>
+
+        <li><a routerLink="/reports" (click)="setTitle('Reports')"><i class="fa fa-book text-yellow"></i> <span>Reports</span></a></li>
+        
+        <!-- <li><a routerLink="/kitchen-display" (click)="setTitle('Kitchen Order')"><i class="fa fa-laptop text-aqua"></i> <span>Kitchen Order</span></a></li> -->
+        <li><a routerLink="/order-list" (click)="setTitle('Order List')"><i class="fa fa-laptop text-aqua"></i> <span>Order List</span></a></li>
+
+        <li class="treeview" *ngIf="userRole.role != 3">
+          <a href="#" >
+            <i class="fa fa fa-th text-red"></i> <span>Site Management</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li><a routerLink="/categories" (click)="setTitle('Categories')"><i class="fa fa-circle-o text-red"></i> <span>Categories</span></a></li>
+
+              <li><a routerLink="/products" (click)="setTitle('Products')"><i class="fa fa-circle-o text-aqua"></i> <span>Stocks</span></a></li>
+
+              <li><a routerLink="/purchases" (click)="setTitle('Purchases')"><i class="fa fa-circle-o text-aqua"></i> <span>Purchases</span></a></li>
+      
+              <li><a routerLink="/tables" (click)="setTitle('Tables')"><i class="fa fa-circle-o text-navy"></i> <span>Tables</span></a></li>
+      
+              <li><a routerLink="/kitchens" (click)="setTitle('Kitchens')"><i class="fa fa-circle-o text-orange"></i> <span>Kitchens</span></a></li>
+      
+              <li><a routerLink="/customers" (click)="setTitle('Customers')"><i class="fa fa-circle-o text-blue"></i> <span>Customers</span></a></li>
+              
+              <li><a routerLink="/customer-demands" (click)="setTitle('Customer Demands')"><i class="fa fa-circle-o text-success"></i> <span>Customer Demands</span></a></li>
+
+              <li><a routerLink="/suppliers" (click)="setTitle('Supplier')"><i class="fa fa-circle-o text-success"></i> <span>Suppliers</span></a></li>
+      
+              <li><a routerLink="/users" (click)="setTitle('Users')"><i class="fa fa-circle-o text-info"></i> <span>Users</span></a></li>
+          </ul>
+        </li>
+
+      </ul>
+
+
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- =============================================== -->
+

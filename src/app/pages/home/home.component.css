@@ -1,0 +1,18 @@
+.pos.small-box .icon {
+    font-size: 50px;
+    color: #fff;
+}
+.pos.small-box a:hover .icon {
+    font-size: 60px;
+    color: rgba(0,0,0,0.15);
+}
+.pos.small-box a {
+    color: #fff;
+}
+.pos.small-box a:hover {
+    color: rgba(0,0,0,0.15);
+}
+.pos.small-box {
+    padding: 10px 0;
+    border-radius: 10px;
+}

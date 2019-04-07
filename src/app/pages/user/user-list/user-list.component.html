@@ -1,0 +1,49 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Users</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<p>
+  <a routerLink="/users/create" class="btn btn-success">Add New</a>
+</p>
+
+<div class="box box-solid box-info">
+  <table class="table table-bordered" id="usersTable">
+  
+      <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Kitchen</th>
+            <th>Address</th>
+            <th>Action</th>
+          </tr>
+      </thead>
+  
+      <tbody>
+          <!-- data coming from server -->
+          <tr *ngFor="let u of users">
+            <td>{{u.id}}</td>
+            <td>{{u.name}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.phone}}</td>
+            <td>{{u.Role.role}}</td>
+            <td>{{(u.kitchen_id != NULL)? u.Kitchen.kitchen_name: 'None'}}</td>
+            <td>{{u.address}}</td>
+            <td>
+              <a routerLink="/users/edit/{{u.id}}" class="btn btn-warning mr-5 btn-sm">Edit</a>
+              <button (click)="deleteUsr(u.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+          </tr>
+      </tbody>
+  
+  </table>
+</div>
+      
+</section>

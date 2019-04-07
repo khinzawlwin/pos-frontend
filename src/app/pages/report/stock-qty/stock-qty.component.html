@@ -1,0 +1,45 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1 class="pull-left">Stocks Qty Report</h1>
+
+  <a routerLink="/reports" class="btn btn-success btn-sm btn-back pull-right">Back <i class="fa fa-arrow-right"></i></a>
+  <button (click)="exportAsXLSX()" class="btn btn-info btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-excel-o" style="font-size:15px;"></i></button>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<div class="box box-solid box-info">
+  <div class="table-responsive">
+    <div class="col-md-12">
+      <h3 class="report-title text-center"> Stocks Qty </h3>
+    </div>
+    
+    <table class="table table-striped table-hover tbl-qty">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>QtyOpeningBalance</th>
+          <th>QtyWarehouse</th>
+          <th>QtyCounter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let s of stocks">
+          <tr>
+            <td> {{s.id}} </td>
+            <td> {{s.name}} </td>
+            <td class="text-right"> {{s.qty_opening_balance}} </td>
+            <td class="text-right"> {{s.qty_warehouse}} </td>
+            <td *ngIf="s.qty_counter == 0" class="qty-empty text-right"> {{s.qty_counter}} </td>
+            <td *ngIf="s.qty_counter <= 5 && s.qty_counter > 0" class="qty-warning text-right"> {{s.qty_counter}} </td>
+            <td *ngIf="s.qty_counter > 5" class="text-right"> {{s.qty_counter}} </td>
+          </tr>
+        </ng-container> 
+      </tbody>
+    </table>
+  </div>
+</div>
+      
+</section>

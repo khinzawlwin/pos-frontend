@@ -1,0 +1,142 @@
+.sidebar-collapse {
+    padding-right: 0 !important;
+}
+.btn-kitchen {
+    background: orangered;
+    color: #fff;
+}
+.btn-kitchen:hover {
+    background: coral;
+}
+.btn-reset {
+    background: crimson;
+    color: #fff;
+}
+.btn-reset:hover {
+    background: brown;
+}
+.product-list {
+    height: 650px;
+    overflow-y: auto;
+}
+.product-list .panel {
+    text-align: center;
+}
+.product-list .panel:hover {
+    box-shadow: 0 1px 8px 2px rgba(0, 166, 90, 0.2);
+}
+.product-list h4,
+.product-list span,
+.product-list em {
+    font-size: 12px;
+    margin: 0;
+    white-space: nowrap;
+}
+.product-list .panel-body {
+    padding: 10px 5px;
+}
+.product-list .panel-footer {
+    padding: 5px;
+    overflow: hidden;
+}
+.product-list .product {
+    padding: 0 5px;
+}
+.product-list .product a {
+    color: #333;
+    cursor: pointer;
+}
+.wapper-row {
+    margin-right: -10px;
+    margin-left: -10px;
+}
+.code {
+    margin:0;
+}
+.product-list .panel-footer {
+    background: greenyellow;
+}
+
+.view-table {
+    margin-bottom: 15px;
+}
+.btn-order {
+    background: blueviolet;
+    color: #fff
+}
+.btn-order:hover {
+    background: darkviolet;
+    color: #fff
+}
+
+/* pos */
+.table .action a {
+    color: red;
+    cursor: pointer;
+}
+.table .quantity span {
+    color: #00B7FF;
+    cursor: pointer;
+}
+.cart {
+    font-size: 12px;
+}
+.cart .table td {
+    padding: 4px 8px;
+}
+.cart tfoot input {
+    text-align: right;
+    padding: 3px 0;
+    height: 30px;
+}
+.cart .item-name {
+    min-width: 130px;
+}
+.cart .qty {
+    min-width: 60px;
+}
+.cart .qty-text {
+    margin: 0 4px;
+}
+.cart .table td.subtotal,
+.cart .table td.amount {
+    padding-right: 25px;
+}
+/* modal box */
+.table-name {
+    margin: 0;
+}
+.btn-ordertable {
+    width: 100%;
+    background: limegreen;
+    color: #fff;
+}
+.btn-ordertable:hover {
+    background: green;
+}
+/* print */
+/* filter */
+.filter-product {
+    border-bottom: 1px solid #00B7FF;
+    margin-bottom: 10px;
+    background-color: darkseagreen;
+}
+.filter-product .form-group {
+    margin-bottom: 5px;
+}
+.cust-demand {
+    cursor: pointer;
+}
+.kitchen {
+    text-align: right;
+    padding: 0 15px;
+}
+.content {
+    padding-top: 0;
+}
+.checkbox {
+    margin: 0;
+}
+.checkbox.tax label {
+    margin-top: 10px;
+}
